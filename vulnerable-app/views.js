@@ -89,7 +89,7 @@ function renderItem({ session, item, comments, flash }) {
     <li class="comment">
       <span class="author">${esc(c.author)}</span>
       <span class="when">${esc(c.created)}</span>
-      <div class="cbody">${c.body}</div>
+      <div class="cbody">${esc(c.body)}</div>
     </li>`).join('');
 
   const commentForm = session
@@ -169,11 +169,12 @@ function renderWallet({ session, me, transfers, flash }) {
         <p class="balance">Balance: <strong>${esc(me.credits)}</strong> credits</p>
 
         <h2>Send credits</h2>
-        <form method="POST" action="/wallet/transfer" class="transferform">
-          <label>To (username) <input name="to" required></label>
-          <label>Amount <input name="amount" type="number" min="1" required></label>
-          <button>Send</button>
-        </form>
+      <form method="POST" action="/wallet/transfer" class="transferform">
+      <input type="hidden" name="csrfToken" value="${esc(session.csrfToken)}">
+      <label>To (username) <input name="to" required></label>
+      <label>Amount <input name="amount" type="number" min="1" required></label>
+      <button>Send</button>
+    </form>
 
         <h2>History</h2>
         <ul class="history">${history}</ul>
